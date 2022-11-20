@@ -12,9 +12,9 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @yield('style-css')
 </head>
 <body>
     <div id="app">
@@ -49,7 +49,12 @@
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item dropdown">
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('post.index') }}">Post's</a>
+                        </li>
+
+                        <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>
@@ -76,5 +81,6 @@
             @yield('content')
         </main>
     </div>
+    @stack('javascript')
 </body>
 </html>
