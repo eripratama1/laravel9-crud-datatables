@@ -8,6 +8,7 @@
                     <div class="card-header">Create Post</div>
 
                     <div class="card-body">
+                        {{-- action form ke route post.store untuk proses simpan data ke database  --}}
                         <form action="{{ route('post.store') }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
@@ -16,9 +17,12 @@
                                     class="form-control @error('title')
                                     is-invalid
                                 @enderror">
+
+                                {{-- Menampilkan pesan error validasi --}}
                                 @error('title')
                                     <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
+
                             </div>
 
                             <div class="form-group mt-3">
@@ -27,7 +31,9 @@
                                     class="form-control @error('category_id')
                                     is-invalid
                                 @enderror">
-                                    <option value="">Pilih Kategori</option>
+                                
+                                {{-- Looping data category dari tabel category --}}
+                                <option value="">Pilih Kategori</option>
                                     @foreach ($category as $itemCategory)
                                         <option value="{{ $itemCategory->id }}">{{ $itemCategory->name }}</option>
                                     @endforeach

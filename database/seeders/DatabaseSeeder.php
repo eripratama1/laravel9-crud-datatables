@@ -20,6 +20,10 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        /**
+         * Panggil seeder Category untuk proses seeder ke tabel category
+         */
         $this->call(CategorySeeder::class);
     }
 }

@@ -13,6 +13,12 @@ class CategorySeeder extends Seeder
      *
      * @return void
      */
+
+    /**
+     * Menjalankan proses seeder ke tabel category
+     * dan memanggil method factory
+     */
+
     public function run()
     {
         Category::factory()->count(10)->create();

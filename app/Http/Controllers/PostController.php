@@ -16,6 +16,11 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    /**
+     * Return view ke post index yang dimana
+     * pada view itu kita juga me-render datatables 
+     */
     public function index()
     {
         return view('post.index');
@@ -25,6 +30,12 @@ class PostController extends Controller
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
+     */
+
+    /**
+     * Return view ke post create untuk proses input data
+     * ke tabel post.Selain itu kita juga memanggil model create
+     * untuk menampilkan data category pada form create post.
      */
     public function create()
     {
@@ -38,11 +49,23 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+    /**
+     * Proses store data ke tabel post
+     */
     public function store(PostRequest $request)
     {
+        /**
+         * Proses validasi data sebelum melakukan store data ke tabel post
+         */
         $dataPostRequest = $request->validated();
 
         $post = new Post;
+
+        /**
+         * Jika terdapat file gambar yang akan disimpan jalankan proses simpan 
+         * gambar tersebut. Gambar akan disimpan ke folder public/uploads
+         */
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $uploadFile = time() . '_' . $file->getClientOriginalName();
@@ -55,6 +78,11 @@ class PostController extends Controller
         $post->content = $dataPostRequest['content'];
         $post->category_id = $dataPostRequest['category_id'];
         $post->save();
+
+        /**
+         * Redirect ke halaman post.index setelah proses simpan
+         * Data ke tabel post
+         */
         return to_route('post.index')->with('status', 'Data has been stored');
     }
 
@@ -77,6 +105,10 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        /**
+         * Panggil form edit dan tampilkna juga data dari model 
+         * Post dan category pada form tersebut
+         */
         $category = Category::get();
         return view('post.edit', [
             'post' => $post,
@@ -93,10 +125,21 @@ class PostController extends Controller
      */
     public function update(PostRequest $request, Post $post)
     {
+        /**
+         * Lakukan proses validasi ke PostRequest
+         */
         $dataPostRequest = $request->validated();
-        //$path = $request->hasFile('image');
+        
+        /**
+         * Cari data yang sesuai dengan data yang dipilih
+         */
         $post = Post::findOrFail($post->id);
 
+        /**
+         * Jika gambar akan diupdate
+         * hapus gambar sebelumnya kemudian 
+         * ipdate dnegna gambar yangh baru.
+         */
         if ($request->hasFile('image')) {
             if (File::exists($post->image)) {
                 File::delete($post->image);
@@ -107,12 +150,20 @@ class PostController extends Controller
             $post->image = $uploadFile;
         }
 
+        /**
+         * Lakukan proses update data
+         */
         $post->update([
             'title' => $dataPostRequest['title'],
             'slug' => Str::slug($request->title, '-'),
             'content' => $dataPostRequest['content'],
             'category_id' => $dataPostRequest['category_id']
         ]);
+
+        /**
+         * Jika proses update data berhasil kembali ke halaman 
+         * post index.
+         */
         return to_route('post.index')->with('status', 'Data has been updated');
     }
 
@@ -124,10 +175,19 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
+        /**
+         * Jalankan proses hapus data gambar berdasarkan data yang dipilih 
+         * untuk di hapus
+         */
         $post = Post::findOrFail($id);
         if (File::exists("uploads/".$post->image)) {
             File::delete("uploads/".$post->image);
         }
+
+        /**
+         * Hapus data post dari tabel
+         * lalu kembali ke halaman post.index
+         */
         $post->delete();
         return to_route('post.index')->with('status','Data Has been Delete');
     }

@@ -14,6 +14,11 @@ class CategoryFactory extends Factory
      *
      * @return array<string, mixed>
      */
+
+    /**
+     * Mendefinisikan atribut yamg akan digunakan 
+     * Pada faker()
+     */
     public function definition()
     {
         $name = fake()->countryCode();

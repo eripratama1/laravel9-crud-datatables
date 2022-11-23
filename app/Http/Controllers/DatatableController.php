@@ -8,6 +8,15 @@ use Illuminate\Http\Request;
 
 class DatatableController extends Controller
 {
+
+    /**
+     * Method post pada Datatable controller
+     * digunakan untuk me-render data dengan datatable secara serverside
+     * dimana kita menambahkan beberapa kolom yaitu
+     * 1.Kolom action untuk menampilkan tombol action edit dan hapus
+     * 2.Kolom category untuk menampilkan data category yang berelasi antara tabel post dan category
+     * 3.Kolom image untuk menampilkan gambar yang disimpan ke folder public
+     */
     public function posts()
     {
         $post = Post::latest()->with('getCategory')->get();

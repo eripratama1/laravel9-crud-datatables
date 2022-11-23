@@ -5,9 +5,10 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Create Post</div>
+                    <div class="card-header">Update Post</div>
 
                     <div class="card-body">
+                        {{-- action form ke route post update untuk proses update data --}}
                         <form action="{{ route('post.update',$post) }}" method="post" enctype="multipart/form-data">
                             @csrf
                             @method('PATCH')
@@ -29,8 +30,11 @@
                                     is-invalid
                                 @enderror">
                                     <option value="">Pilih Kategori</option>
+                                    {{-- looping data category kemudian tampilkan data kategori yang tersimpan
+                                    sesuai dengan nilai yang tersimpan di tabel post menggunakan @selected 
+                                    dari blade --}}
                                     @foreach ($category as $itemCategory)
-                                        <option value="{{ $itemCategory->id }}">{{ $itemCategory->name }}</option>
+                                        <option @selected($itemCategory->id == $post->category_id) value="{{ $itemCategory->id }}">{{ $itemCategory->name }}</option>
                                     @endforeach
                                 </select>
                                 @error('category_id')

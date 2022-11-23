@@ -22,6 +22,12 @@ class PostRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
+
+    /**
+     * Definisikan atribut nilai pada tabel post
+     * yang akan di validasi 
+     * ke method rules
+     */
     public function rules(Request $request)
     {
         return [
